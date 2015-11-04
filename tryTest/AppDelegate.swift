@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Jason5110
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        print("aaa")
+
+        
+        let semaphore = dispatch_semaphore_create(1);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        
+        
+        JSupportNetwork(urlString: "https://www.google.com").isConnectedToNetworkWithSession { (result) -> Void in
+            print("fin")
+            
+            dispatch_semaphore_signal(semaphore)
+
+        }
+        
+//        JSupportNetwork().isConnectedToNetworkWithSession("https://www.google.com") { (result) -> () in
+//            print("fin")
+//            
+//            dispatch_semaphore_signal(semaphore)
+//        }
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+
+        print("aab")
+        dispatch_semaphore_signal(semaphore)
+
         return true
     }
 
